@@ -9,10 +9,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     private CharacterController controller;
     private Vector3 playerVelocity;
-    [SerializeField] private bool groundedPlayer;
     private InputManager inputManager;
     private Transform cameraTransform;
     [SerializeField] private bool canDoubleJump;
+
+    //private float groundDrag;
+    [SerializeField] private bool groundedPlayer;
+    public LayerMask ground;
+    [SerializeField] public float playerHight;
+    private Vector3 lookDirection;
+
+
 
     private void Start()
     {
@@ -20,15 +27,15 @@ public class PlayerController : MonoBehaviour
         inputManager = InputManager.Instance;
         cameraTransform = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = true;
+        playerHight = controller.height * 0.5f + 0.4f;
     }
 
     void Update()
     {
-        Vector3 lookDirection = cameraTransform.forward;
+        groundedPlayer =  Physics.Raycast(transform.position,Vector3.down,playerHight, ground);
+        //lookDirection = cameraTransform.forward;
         //transform.LookAt(transform.position + lookDirection, Vector3.up);
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (groundedPlayer)
         {
             playerVelocity.y = 0f;
             canDoubleJump = false;
@@ -39,8 +46,35 @@ public class PlayerController : MonoBehaviour
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
+        Jump();
+        Sprint();
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
 
+        ChcangeVipon();
+        if (healthSystem.currentStamina < healthSystem.maxStamina && !inputManager.PlayerSprint() && groundedPlayer)
+        {
+            healthSystem.RegenStamina(0.1f);
+        }
+    }
 
+    public void ChcangeVipon()
+    {
+        if (inputManager.PlayerChangeWeapon())
+        {
+            if (inputManager.changeWeapon == true)
+            {
+                inputManager.changeWeapon = false;
+            }
+            else
+            {
+                inputManager.changeWeapon = true;
+            }
+        }
+    }
+
+    public void Jump()
+    {
         if (inputManager.PlayerJumpedThisFrame() && (groundedPlayer || canDoubleJump) && healthSystem.currentStamina >= 10f)
         {
             healthSystem.TakeStamina(10f);
@@ -52,18 +86,11 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        if (inputManager.PlayerChangeWeapon())
-        {
-            if (inputManager.changeWeapon == true)
-            {
-                inputManager.changeWeapon = false;
-            }else
-            {
-                inputManager.changeWeapon = false;
-            }
-            
-        }
-        if (inputManager.PlayerSprint() && healthSystem.currentStamina>0)//groundedPlayer
+    }
+
+    public void Sprint()
+    {
+        if (inputManager.PlayerSprint() && healthSystem.currentStamina > 0 && groundedPlayer)
         {
             healthSystem.TakeStamina(0.2f);
             playerSpeed = 10f;
@@ -72,13 +99,8 @@ public class PlayerController : MonoBehaviour
         {
             playerSpeed = 2f;
         }
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-        if (healthSystem.currentStamina<healthSystem.maxStamina || (move == Vector3.zero))
-        {
-            healthSystem.RegenStamina(0.1f);
-        }
     }
+
     public void GetDamage(float damage)
     {
         healthSystem.currentHealth -= damage;

@@ -7,12 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Orange
-<<<<<<< Updated upstream
-  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
-=======
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
->>>>>>> Stashed changes
+  m_Name: BloodMaterial
+  m_Shader: {fileID: 4800000, guid: 85f0a288590fa614e81f4bcb79d96230, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -27,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BloodTex:
+        m_Texture: {fileID: 2800000, guid: 58cb15870f95cbf438b4da30c6fe667d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 386e7cc8f3bb0fa40bd192c0dcd56881, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8edab12ea5d63674686563f3d08821f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -65,6 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BloodStrength: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -76,16 +77,15 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Radius: 0.1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-<<<<<<< Updated upstream
-=======
     - _ClickPosition: {r: 0.98650646, g: 0.75442505, b: 0, a: 0}
->>>>>>> Stashed changes
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.8415094, g: 0.05705992, b: 0.055571258, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HitPosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

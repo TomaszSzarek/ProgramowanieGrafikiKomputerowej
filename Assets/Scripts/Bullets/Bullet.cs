@@ -7,6 +7,9 @@ public class Bullet : MonoBehaviour
     [SerializeField]private float damage = 5f;
     private Rigidbody rb;
 
+    ContactPoint contact;
+    Vector3 hitPosition;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,7 +28,9 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<DamageableObjects>() != null)
         {
-            collision.gameObject.GetComponent<DamageableObjects>().GetDamage(damage);
+            contact = collision.contacts[0];
+            hitPosition = contact.point;
+            collision.gameObject.GetComponent<DamageableObjects>().GetDamage(damage, hitPosition);
             Destroy(gameObject);
         }
         if (collision.gameObject.CompareTag("Player"))

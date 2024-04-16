@@ -36,7 +36,7 @@ public class PlayerShotHitscan : MonoBehaviour
         {
             if (hit.transform.GetComponent<DamageableObjects>() != null)
             {
-                hit.transform.GetComponent<DamageableObjects>().GetDamage(damage);
+                //hit.transform.GetComponent<DamageableObjects>().GetDamage(damage);
             }
         }
     }

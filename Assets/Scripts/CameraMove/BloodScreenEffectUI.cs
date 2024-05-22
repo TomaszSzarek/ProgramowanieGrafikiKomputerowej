@@ -18,7 +18,7 @@ public class BloodScreenEffectUI : MonoBehaviour
     {
         if (timer > 0)
         {
-            // Zmiana koloru na bardziej czerwony z up³ywem czasu
+            // Zmiana koloru 
             float redIntensity = Mathf.Lerp(0.5f, 0.0f, (displayTime - timer) / displayTime);
             rawImage.color = new Color(1.0f, 0.0f, 0.0f, redIntensity);
 

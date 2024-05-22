@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        be = BloodScreenEffectUI.Instance;
         controller = GetComponent<CharacterController>();
         inputManager = InputManager.Instance;
         cameraTransform = Camera.main.transform;
@@ -105,6 +104,7 @@ public class PlayerController : MonoBehaviour
     public void GetDamage(float damage)
     {
         healthSystem.currentHealth -= damage;
+        be = BloodScreenEffectUI.Instance;
         be.TriggerBloodEffect();
     }
 }

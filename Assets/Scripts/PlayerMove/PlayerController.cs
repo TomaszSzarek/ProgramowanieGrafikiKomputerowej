@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 movement = inputManager.GetPlayerMovement();
-        Vector3 move = new Vector3(movement.x,0f,movement.y);//kierunek chocdzenia
+        Vector3 move = new(movement.x,0f,movement.y);//kierunek chocdzenia
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);

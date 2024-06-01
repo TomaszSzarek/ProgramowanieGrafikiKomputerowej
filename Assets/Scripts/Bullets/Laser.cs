@@ -3,36 +3,43 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    public LineRenderer lineRenderer;
-    public int maxReflections = 10;
+    public LineRenderer line0;
+    public int maxR = 10;
     public float max = 100f;
-    public Transform cameraTransform;
-
+    public Transform camera1;
+    public GameObject ParticlePrefab;
+    private List<GameObject> Particles = new();
     void Start()
     {
-        if (lineRenderer == null)
+        if (line0 == null)
         {
-            lineRenderer = GetComponent<LineRenderer>();
+            line0 = GetComponent<LineRenderer>();
         }
 
-        if (cameraTransform == null)
+        if (camera1 == null)
         {
-            cameraTransform = Camera.main.transform;
+            camera1 = Camera.main.transform;
         }
     }
 
     void Update()
     {
-        Vector3 start1 = cameraTransform.position;
+        Vector3 start1 = camera1.position;
         start1 += new Vector3(1f,-1f);
         Ray ray0 = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         Vector3 direct = ray0.direction;
-        lineRenderer.positionCount = 1;
-        lineRenderer.SetPosition(0, start1);
+        line0.positionCount = 1;
+        line0.SetPosition(0, start1);
         int i = 0;
-        List<Vector3> ReflectPoint = new() { start1 };
+        List<Vector3> RPoint = new() { start1 };
 
-        while (i < maxReflections)
+        foreach (GameObject Particle in Particles)
+        {
+            Destroy(Particle);
+        }
+        Particles.Clear();
+
+        while (i < maxR)
         {
             Ray ray = new(start1, direct);
 
@@ -41,16 +48,27 @@ public class Laser : MonoBehaviour
                 i++;
                 start1 = hit.point;
                 direct = Vector3.Reflect(direct, hit.normal);
-                ReflectPoint.Add(start1);
+                RPoint.Add(start1);
+
+                Vector3 sparkD = hit.normal; 
+                Quaternion sparkR = Quaternion.LookRotation(sparkD);
+                GameObject spark = Instantiate(ParticlePrefab, start1, sparkR);
+
+                if (spark.TryGetComponent<ParticleSystem>(out var SPS))
+                {
+                    SPS.Clear();
+                    SPS.Play();
+                }
+                Particles.Add(spark);
             }
             else
             {
-                ReflectPoint.Add(start1 + direct * max);
+                RPoint.Add(start1 + direct * max);
                 break;
             }
         }
 
-        lineRenderer.positionCount = ReflectPoint.Count;
-        lineRenderer.SetPositions(ReflectPoint.ToArray());
+        line0.positionCount = RPoint.Count;
+        line0.SetPositions(RPoint.ToArray());
     }
 }

@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   damage: 5
+  ParticlePrefab: {fileID: 1696449937126492334, guid: 9397fbd2c18833f4297d3876394a80cc, type: 3}

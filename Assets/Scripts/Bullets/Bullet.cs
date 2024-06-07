@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     private Rigidbody rb;
 
     public GameObject ParticlePrefab;//particlesy
+    ParticleSystem particleSys;
+    GameObject particle;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,6 +28,11 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        //particless nie dziala cos
+        particle = Instantiate(ParticlePrefab, transform.position, Quaternion.identity);
+        particleSys = particle.GetComponent<ParticleSystem>();
+        particleSys.Play();
+
         if (collision.gameObject.GetComponent<DamageableObjects>() != null)
         {
             collision.gameObject.GetComponent<DamageableObjects>().GetDamage(damage);
@@ -37,9 +44,15 @@ public class Bullet : MonoBehaviour
             player.GetDamage(damage);
             Destroy(gameObject);
         }
-
-        //particless nie dziala cos
-        //GameObject particle = Instantiate(ParticlePrefab, rb.velocity, Quaternion.identity);
-        Destroy(gameObject);
     }
+
+    void Update()
+    {
+        if (particleSys != null && !particleSys.IsAlive())
+        {
+            Destroy(particle);
+            Destroy(gameObject);
+        }
+    }
+
 }

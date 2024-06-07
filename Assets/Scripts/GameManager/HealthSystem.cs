@@ -85,5 +85,6 @@ public class HealthSystem : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Debug.Log("Gracz zgin¹³!");
+        SceneManager.LoadScene(1);
     }
 }

@@ -75,9 +75,9 @@ public class InputManager : MonoBehaviour
     {
         return customInput.Player.ChangeWeapon.triggered;
     }
-
+    //laser
     public bool PlayerReload()
     {
-        return customInput.Player.Reload.triggered;
+        return customInput.Player.Reload.IsPressed();
     }
 }

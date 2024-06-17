@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 lookDirection;
 
     private BloodScreenEffectUI be;
+    [SerializeField] private GameObject Laser;
 
     private void Start()
     {
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(move * Time.deltaTime * playerSpeed);
         Jump();
         Sprint();
+        UseLaser();
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
 
@@ -106,5 +109,17 @@ public class PlayerController : MonoBehaviour
         healthSystem.currentHealth -= damage;
         be = BloodScreenEffectUI.Instance;
         be.TriggerBloodEffect();
+    }
+
+    public void UseLaser()
+    {
+        if (inputManager.PlayerReload())
+        {
+            Laser.SetActive(true);
+        }
+        else
+        {
+            Laser.SetActive(false);
+        }
     }
 }

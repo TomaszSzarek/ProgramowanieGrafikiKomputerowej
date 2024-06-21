@@ -4,8 +4,8 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     public LineRenderer line0;
-    public int maxR = 10;
-    public float max = 100f;
+    public int maxR = 3;
+    public float max = 3f;
     public Transform camera1;
     public GameObject ParticlePrefab;
     private List<GameObject> Particles = new();
